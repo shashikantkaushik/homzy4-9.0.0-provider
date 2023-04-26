@@ -8,10 +8,12 @@ class ReqModel {
   String desc;
   String pin;
   String work;
+  int price;
   String userPic;
 
   ReqModel({
     required this.pin,
+    required this.price,
     required this.userPic,
     required this.desc,
     required this.userName,
@@ -28,6 +30,7 @@ class ReqModel {
     print("as1df");
     return ReqModel(
       userPic: map['userPic'] ?? '',
+      price: map['price'] ?? '',
       work: map['work'] ?? '',
       pin: map['pin'] ?? '',
       desc: map['desc'] ?? '',
@@ -44,7 +47,7 @@ class ReqModel {
   Map<String, dynamic> toMap() {
     print("a2sdf");
     return {
-
+"price":price,
       "userName": userName,
       "userUid": userUid,
       "address": address,

@@ -1,28 +1,46 @@
 import 'package:flutter/material.dart';
 import 'package:homzy1/screens/request_screen.dart';
-//import 'package:homzy1/screens/setting_page.dart';
+import 'package:homzy1/screens/profile_screen.dart';
 import 'package:intl/intl.dart';
-import 'package:flutter/material.dart';
 import 'package:homzy1/auth.dart';
-import 'package:carousel_pro/carousel_pro.dart';
-
-
-import 'package:homzy1/screens/account_page.dart';
 import 'package:provider/provider.dart';
-//import 'package:homzy1/screens/small_service_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+
+
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:homzy1/screens/account_page.dart';
 
-import 'package:flutter/material.dart';
-import 'package:carousel_pro/carousel_pro.dart';
-import 'package:homzy1/screens/account_page.dart';
+
+
+
 
 void main() => runApp(const MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   const MyApp({super.key});
 
   @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  // late FirebaseFirestore _firebaseFirestore;
+  // final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  // @override
+  // void initState() {
+  //   print("init");
+  //   super.initState();
+  //   _firebaseFirestore = FirebaseFirestore.instance;
+  //}
+  @override
   Widget build(BuildContext context) {
+    final ap = Provider.of<AuthProvider>(context, listen: false);
+
+
+
     return MaterialApp(
       title: 'Home Service Provider',
       theme: ThemeData(
@@ -32,11 +50,73 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  // String location ='Null, Press Button';
+
+  late FirebaseFirestore _firebaseFirestore;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  String Address = 'Location';
+  //String Address2= 'search';
+
+
+  Future<Position> _getGeoLocationPosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are not enabled don't continue
+      // accessing the position and request users of the
+      // App to enable the location services.
+      await Geolocator.openLocationSettings();
+      return Future.error('Location services are disabled.');
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        return Future.error('Location permissions are denied');
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      // Permissions are denied forever, handle appropriately.
+      return Future.error(
+          'Location permissions are permanently denied, we cannot request permissions.');
+    }
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+  }
+
+  Future<void> GetAddressFromLatLong(Position position) async {
+    List<Placemark> placemarks = await placemarkFromCoordinates(
+        position.latitude, position.longitude);
+    print(placemarks);
+    Placemark place = placemarks[0];
+    Address = '${place.street}, ${place.subLocality}, ${place.locality}, ${place
+        .postalCode}, ${place.administrativeArea}';
+    //Address2='${place.locality}';
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getGeoLocationPosition().then((position) => GetAddressFromLatLong(position));
+    _firebaseFirestore = FirebaseFirestore.instance;
+  }
+
   Widget build(BuildContext context) {
+
     final ap = Provider.of<AuthProvider>(context, listen: false);
     final name=(ap.userModel.name);
     final email=(ap.userModel.email);
@@ -46,195 +126,138 @@ class HomeScreen extends StatelessWidget {
     final uid=(ap.userModel.uid);
     final date=(ap.userModel.createdAt);
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor:  Colors.white,
+        elevation: 0.5,
+        centerTitle: false,
 
-      body: SingleChildScrollView(
-        child: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Container(
-                height: 100,
-                child: Align(
-                  alignment: Alignment.topLeft,
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
+        title: Text("Homzy Provider",
+            style:TextStyle(
+                color: Colors.black,
+
+            )
+        ),
+        actions: [
+          GestureDetector(
+            onTap: () {
+              print("dlo");
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const Profile(),
+                ),
+              );
+            },
+            child: CircleAvatar(
+
+              backgroundImage: NetworkImage(ap.userModel.profilePic),
+              backgroundColor: Color(0xFF189AB4),
+              radius: 50,
+            ),
+          )
+
+        ],
+      ),
+      body:Column(
+        children:[ SingleChildScrollView(
+      child: SafeArea(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          SizedBox(height: 18,),
+      Container(
+        padding: EdgeInsets.all(16.0),
+        child: Row(
+          children: [
+            Icon(Icons.location_on,color: Colors.redAccent,),
+            SizedBox(width: 8.0),
+            Flexible(
+              child: Text(
+                '$Address',
+                maxLines: null,
+                overflow: TextOverflow.clip,
+              ),
+            ),
+          ],
+        ),
+      ),
+
+
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "${DateTime
+                      .now()
+                      .day} ${DateFormat('MMMM').format(
+                      DateTime.now())} ${DateTime
+                      .now()
+                      .year}",
+                  style: TextStyle(
+                    fontSize: 15,
+                  ),
+                ),
+                SizedBox(height: 20.0),
+                Text(
+                  "Hello ,$name",
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 60,
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 16,),
+            child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.greenAccent,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    height: 320,
+                    width: 380,
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      // mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(
-                          'Homzy',
-                          style: TextStyle(
-                            fontSize: 24,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Icon(
+                          Icons.arrow_left,
+                          size: 50,
                         ),
-                        CircleAvatar(
-                          radius: 30,
-                          backgroundImage: NetworkImage('$pic'),
+                        Text(
+                          'Swipe to show booked service',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20),
                         ),
                       ],
                     ),
-
                   ),
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Container(
-                padding: EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "${DateTime.now().day} ${DateFormat('MMMM').format(DateTime.now())} ${DateTime.now().year}",
-                      style: TextStyle(
-                        fontSize: 15,
-                      ),
-                    ),
-                    SizedBox(height: 20.0),
-                    Text(
-                      "Hello , $name",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: 60,
-              ),
-              Padding(
-                padding: EdgeInsets.only(left: 16,),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: [
-                      SizedBox(width: 16.0),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.blueAccent,
-                        ),
-                        height: 300,
-                        width: 250,
-                        margin: EdgeInsets.only(right: 16.0),
-                        padding: EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CircleAvatar(
-                              radius: 30.0,
-                              child: Icon(Icons.money, size: 35.0, color: Colors.white),
-                              backgroundColor: Colors.green,
-                            ),
-                            SizedBox(height: 16.0),
-                            Text(
-                              'Rs.10,000',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: 8.0),
-                            Text(
-                              'Total Earning',
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 16.0),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.greenAccent,
-                        ),
-                        height: 300,
-                        width: 250,
-                        padding: EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CircleAvatar(
-                              radius: 30.0,
-                              child: Icon(Icons.attach_money, size: 35.0, color: Colors.white),
-                              backgroundColor: Colors.blue,
-                            ),
-                            SizedBox(height: 16.0),
-                            Text(
-                              'Rs.25,000',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: 8.0),
-                            Text(
-                              'Gross Earning',
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(width: 16.0),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          color: Colors.blueAccent,
-                        ),
-                        height: 300,
-                        width: 250,
-                        padding: EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            CircleAvatar(
-                              radius: 30.0,
-                              child: Icon(Icons.file_download_done_rounded, size: 35.0, color: Colors.white),
-                              backgroundColor: Colors.blue,
-                            ),
-                            SizedBox(height: 16.0),
-                            Text(
-                              '40',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 24.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: 8.0),
-                            Text(
-                              'Order Received',
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.white,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
 
-            ],
+
+                ],
+              ),
+            ),
           ),
-        ),
+
+        ],
+      ),
+    ),
+    ),
+
+      ]
       ),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
@@ -274,7 +297,6 @@ class HomeScreen extends StatelessWidget {
           }
         },
       ),
-
     );
   }
 }

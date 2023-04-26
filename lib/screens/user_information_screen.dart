@@ -108,16 +108,7 @@ class _UserInfromationScreenState extends State<UserInfromationScreen> {
                         height: 20,
                       ),
                       // bio
-                      TextField(
-                        decoration: const InputDecoration(
-                          hintText: "Enter Your Email Here",
-                          icon: Icon(Icons.edit, color: Color(0xFFC5C6d0),
-                              size: 30),
-                        ),
-                        keyboardType: TextInputType.emailAddress,
-                        maxLines: 1,
-                        controller: emailController,
-                      ),
+
                       TextField(
                         decoration: const InputDecoration(
                           hintText: "Enter Your UPI Here",
@@ -224,7 +215,7 @@ class _UserInfromationScreenState extends State<UserInfromationScreen> {
 
           );
 
-          ap.saveProDataToFirebase(context: context, providerModel: providerModel);
+          // ap.saveProDataToFirebase(context: context, providerModel: providerModel);
           ap.saveUserDataToSP().then(
                 (value) => ap.setSignIn().then(
                   (value) => Navigator.pushAndRemoveUntil(

@@ -30,7 +30,18 @@ class _RequestScreenState extends State<RequestScreen> {
   }
   @override
   Widget build(BuildContext context) {
-
+    List<ReqModel> reqList = [];
+    var userName;
+    var userPic;
+    var userPhoneNumber;
+    var work;
+    var price;
+    var address;
+    var desc;
+    var createdAt;
+    var pin;
+    var reqPic;
+    var userUid;
     final ap = Provider.of<AuthProvider>(context, listen: false);
     // void saveBookReq({
     //   required BuildContext context,
@@ -87,7 +98,7 @@ class _RequestScreenState extends State<RequestScreen> {
               return Center(child: Text("Error: ${snapshot.error}"));
             }
 
-            List<ReqModel> reqList = [];
+
             for (final docSnapshot in snapshot.data!.docs) {
               final data = docSnapshot.data();
               final reqModel = ReqModel.fromMap(data);
@@ -100,17 +111,17 @@ class _RequestScreenState extends State<RequestScreen> {
                 itemBuilder: (context, index) {
                   var len=reqList.length;
 
-                  var userName = reqList[widget.MyUID].userName;
-
-                  var userPhoneNumber=reqList[widget.MyUID].userPhoneNumber;
-                  var userUid=reqList[widget.MyUID].userUid;
-                  var work=reqList[widget.MyUID].work;
-                  var reqPic=reqList[widget.MyUID].reqPic;
-                  var address=reqList[widget.MyUID].address;
-                  var createdAt=reqList[widget.MyUID].createdAt;
-                  var pin=reqList[widget.MyUID].pin;
-                  var desc=reqList[widget.MyUID].desc;
-                  var userPic=reqList[widget.MyUID].userPic;
+                   userName = reqList[widget.MyUID].userName;
+                    price=reqList[widget.MyUID].price;
+                   userPhoneNumber=reqList[widget.MyUID].userPhoneNumber;
+                   userUid=reqList[widget.MyUID].userUid;
+                   work=reqList[widget.MyUID].work;
+                   reqPic=reqList[widget.MyUID].reqPic;
+                   address=reqList[widget.MyUID].address;
+                   createdAt=reqList[widget.MyUID].createdAt;
+                   pin=reqList[widget.MyUID].pin;
+                   desc=reqList[widget.MyUID].desc;
+                   userPic=reqList[widget.MyUID].userPic;
                   return SingleChildScrollView(
                 //    shrinkWrap:true,
                   child:    Column(
@@ -154,13 +165,7 @@ class _RequestScreenState extends State<RequestScreen> {
                                                       ),
                                                     ),
                                                     SizedBox(height: 5),
-                                                    Text(
-                                                      'Service Name',
-                                                      style: TextStyle(
-                                                        fontSize: 15,
-                                                        color: Colors.black,
-                                                      ),
-                                                    ),
+
                                                   ],
                                                 ),
                                               ],
@@ -210,7 +215,7 @@ class _RequestScreenState extends State<RequestScreen> {
                                                     ),
                                                     SizedBox(height: 5),
                                                     Text(
-                                                      'Ac Repair',
+                                                      '$work',
                                                       style: TextStyle(
                                                         fontSize: 19,
                                                         color: Colors.black,
@@ -234,7 +239,7 @@ class _RequestScreenState extends State<RequestScreen> {
                                                   ),
                                                 ),
                                                 Text(
-                                                  'Rs.500',
+                                                  '$price',
                                                   style: TextStyle(
                                                     fontWeight: FontWeight.bold,
                                                     fontSize: 19,
@@ -308,7 +313,7 @@ class _RequestScreenState extends State<RequestScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,// align widgets to the left
                               children: [ // add some spacing between widgets
                                 Text(
-                                  '$desc', // add the description
+                                  'Description', // add the description
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 25,
@@ -320,7 +325,7 @@ class _RequestScreenState extends State<RequestScreen> {
                           Container(
                             padding: EdgeInsets.all(16.0),
                             child: Text(
-                              'Slow or clogged drains occur when something blocks the drain partially or completely. In sinks and showers, hair is often the culprit, but other items, such as a shampoo lid or small toy, may enter the drain and block the pipe. In toilets, the problem often comes when something other than dissolvable waste enters the toilet and gets flushed. Those solid items cannot move through the pipe, so they stay put, making it difficult or impossible for water to flow past the blockage and down the pipes.',style: TextStyle(color: Colors.black),
+                              '$desc',
                               softWrap: true,
                               overflow: TextOverflow.clip,
                             ),
@@ -361,9 +366,9 @@ class _RequestScreenState extends State<RequestScreen> {
     children: [
     ElevatedButton(
     onPressed: () {
-    Navigator.push(
+    Navigator.pop(
     context,
-    MaterialPageRoute(builder: (context) => HomeScreen()),
+
     );
     },
     child: Text('Back', style: TextStyle(color: Colors.black),),
@@ -374,10 +379,13 @@ class _RequestScreenState extends State<RequestScreen> {
     ),
     ElevatedButton(
     onPressed: () {
-    Navigator.push(
-    context,
-    MaterialPageRoute(builder: (context) => HomeScreen()),
-    );
+    print("call");
+    storeData(userPic: userPic,userName: userName,userPhoneNumber: userPhoneNumber,userUid: userUid,createdAt: createdAt,desc: desc,reqPic: reqPic,price:price,work:work);
+    print("end");
+    ap.move(reqList[widget.MyUID].userUid,context);
+
+    // ap.move(reqList[index].userUid);
+
     },
     child: Text('Accept', style: TextStyle(color: Colors.black),),
     style: ElevatedButton.styleFrom(
@@ -394,6 +402,8 @@ class _RequestScreenState extends State<RequestScreen> {
 
   void storeData({
     required userPic,
+    required price,
+    required work,
     required userUid,
     required userName,
     required userPhoneNumber,
@@ -405,7 +415,8 @@ class _RequestScreenState extends State<RequestScreen> {
     final ap = Provider.of<AuthProvider>(context, listen: false);
     print("call11");
     BookModel bookModel = BookModel(
-
+      price:price,
+      work: work,
       proPhoneNumber: ap.userModel.phoneNumber,
       proUid: ap.userModel.uid,
       upi: ap.userModel.upi,
@@ -426,6 +437,7 @@ class _RequestScreenState extends State<RequestScreen> {
       context: context,
       bookModel: bookModel,
       onSuccess: () {
+
         print("success book");
       },
     );

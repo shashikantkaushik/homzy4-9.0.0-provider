@@ -6,10 +6,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:homzy1/booked_model.dart';
 import 'package:homzy1/provider_model.dart';
 import 'package:homzy1/req_model.dart';
+import 'package:homzy1/screens/request_screen.dart';
 import 'package:homzy1/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:homzy1/user_model.dart';
 import 'package:homzy1/screens/otp_screen.dart';
+import 'package:homzy1/screens/request_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'dart:convert';
@@ -379,6 +381,7 @@ class AuthProvider extends ChangeNotifier {
     for (var doc in querySnapshot.docs) {
       ReqModel reqModel = ReqModel(
           pin: doc.data()['description'],
+          price: doc.data()['price'],
           address: doc.data()['address'],
           userName: doc.data()['name'],
           work: doc.data()['work'],
@@ -440,8 +443,8 @@ class AuthProvider extends ChangeNotifier {
       // uploading to database
       await _firebaseFirestore
           .collection("book")
-          .doc(_uid)
-          .set(bookModel.toMap())
+
+          .add(bookModel.toMap())
           .then((value) {
         onSuccess(){
           print("hlo132331");
@@ -458,9 +461,9 @@ class AuthProvider extends ChangeNotifier {
   }
 
 
-
-  void move(String phoneNumber) async {
-    final sourceCollection = FirebaseFirestore.instance.collection('request');
+  //
+  void move(String phoneNumber,context) async {
+    final sourceCollection = FirebaseFirestore.instance.collection('book');
     final destinationCollection = FirebaseFirestore.instance.collection(
         'moved');
 
@@ -475,11 +478,45 @@ class AuthProvider extends ChangeNotifier {
       // Delete the document from the source collection
       await sourceCollection.doc(phoneNumber).delete();
       print('Document with phone number $phoneNumber moved successfully!');
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ServiceRequest()),
+      );
+
     } else {
       print(
           'Document with phone number $phoneNumber does not exist in the request collection!');
     }
   }
+
+  //
+  // void deleteRequestByUID(String MyUID) {
+  //   // Get a reference to the request collection in Firestore
+  //   final CollectionReference requestRef =
+  //   FirebaseFirestore.instance.collection('request');
+  //
+  //   // Use the MyUID parameter to build a query to find the document to delete
+  //   final Query query = requestRef.where('MyUID', isEqualTo: MyUID);
+  //
+  //   // Use the query to get a reference to the document to delete
+  //   query.get().then((querySnapshot) {
+  //     querySnapshot.docs.forEach((doc) {
+  //       // Delete the document
+  //       doc.reference.delete().then((_) {
+  //         print('Document successfully deleted!');
+  //       }).catchError((error) {
+  //         print('Error removing document: $error');
+  //       });
+  //     });
+  //   }).catchError((error) {
+  //     print('Error getting document: $error');
+  //   });
+  // }
+  //
+  //
+
+
+
 
 
 // Delete the document from the source collectio

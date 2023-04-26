@@ -4,6 +4,7 @@ import 'package:homzy1/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:homzy1/booked_model.dart';
+import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 //import 'package:homzy1/screens/home_screen.dart';
@@ -32,7 +33,8 @@ class _bookedServiceState extends State<bookedService> {
     final ap = Provider.of<AuthProvider>(context,listen: false);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Booked Requests'),
+        title: Text('Book Requests',style: TextStyle(color: Colors.black),),
+            backgroundColor: Colors.white,
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: _firebaseFirestore.collection("book").snapshots(),
@@ -93,12 +95,15 @@ class _bookedServiceState extends State<bookedService> {
             itemBuilder: (context, index) {
               var userName= reqList[index].userName;
               var proPhoneNumber=reqList[index].proPhoneNumber;
+              var userPhoneNumber=reqList[index].userPhoneNumber;
               var proName=reqList[index].proName;
               var proPic=reqList[index].proPic;
-              //var work=reqList[index].work;
+              var userPic=reqList[index].userPic;
+              var work=reqList[index].work;
               var desc=reqList[index].desc;
               var reqPic=reqList[index].reqPic;
               var createdAt=reqList[index].createdAt;
+              var price=reqList[index].price;
               return   Container(
                 padding: EdgeInsets.only(top: 30, left: 16, right: 16),
                 child: Column(
@@ -132,7 +137,7 @@ class _bookedServiceState extends State<bookedService> {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
-                              image: NetworkImage(reqList[index].proPic ?? 'https://example.com/default-image.jpg'),
+                              image: NetworkImage(reqList[index].userPic ?? 'https://example.com/default-image.jpg'),
                               fit: BoxFit.cover,
                             ),
                           ),
@@ -143,7 +148,7 @@ class _bookedServiceState extends State<bookedService> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '$proName',
+                              '$userName',
                               style: TextStyle(
                                 fontSize: 24,
                                 fontWeight: FontWeight.bold,
@@ -151,7 +156,7 @@ class _bookedServiceState extends State<bookedService> {
                             ),
                             SizedBox(height: 8),
                             Text(
-                              '$proPhoneNumber',
+                              '$userPhoneNumber',
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.bold,
@@ -173,7 +178,7 @@ class _bookedServiceState extends State<bookedService> {
                           ),
                         ),
                         Text(
-                          'sdhfj',
+                          '$work',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -194,7 +199,7 @@ class _bookedServiceState extends State<bookedService> {
                           ),
                         ),
                         Text(
-                          'Rs 599',
+                          '$price',
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -214,16 +219,32 @@ class _bookedServiceState extends State<bookedService> {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        Text(
-                          '$createdAt',
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.grey[600],
-                          ),
-                        ),
+                Text(
+                  "${DateTime
+                      .now()
+                      .day} ${DateFormat('MMMM').format(
+                      DateTime.now())} ${DateTime
+                      .now()
+                      .year}",
+                  style:  TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.grey[600],
+                  ),
+                ),
                       ],
+
                     ),
+                    SizedBox(
+                      height: 25,
+                    ),
+                    Divider(
+                      height: 10,
+                      thickness: 4,
+                      color: Colors.grey,
+                      indent: 65,
+                      endIndent: 65,
+                    )
                   ],
                 ),
               );

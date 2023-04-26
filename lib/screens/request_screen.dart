@@ -63,11 +63,17 @@ class _ServiceRequestState extends State<ServiceRequest> {
             final data = docSnapshot.data();
             final reqModel = ReqModel.fromMap(data);
             reqList.add(reqModel);
+
           }
 print(reqList.length);
           return ListView.builder(
             itemCount: reqList.length,
             itemBuilder: (context, index) {
+              var name=reqList[index].userName;
+              var address=reqList[index].address;
+              var pic=reqList[index].userPic;
+              var work=reqList[index].work;
+              var price=reqList[index].price;
               return Container(
                 child: ListView(
                     shrinkWrap:true,
@@ -83,10 +89,10 @@ print(reqList.length);
                       child: ListTile(
                         leading: CircleAvatar(
                           radius: 30,
-                          backgroundImage: AssetImage('assets/images.jpeg'),
+                          backgroundImage: NetworkImage('$pic'),
                         ),
-                        title: Text('Plumber', style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
-                        subtitle: Text('Ac repair' , style: TextStyle(color: Colors.black),),
+                        title: Text('$work', style: TextStyle(color: Colors.black,fontWeight: FontWeight.bold),),
+                        subtitle: Text('$price' , style: TextStyle(color: Colors.black),),
                         trailing: Icon(Icons.arrow_forward),
                       ),
                     ),

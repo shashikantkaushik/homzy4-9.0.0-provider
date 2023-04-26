@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
-
-
 import 'package:flutter/gestures.dart';
-import 'package:flutter_linkify/flutter_linkify.dart';
+//import 'package:flutter_linkify/flutter_linkify.dart';
 
 
 class AboutScreen extends StatefulWidget {
@@ -15,6 +13,7 @@ class AboutScreen extends StatefulWidget {
 }
 
 class _AboutScreenState extends State<AboutScreen> {
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,8 +42,9 @@ class _AboutScreenState extends State<AboutScreen> {
               children: [
                 //SizedBox(width: 10,),
                 buildProfileImage(),
-                Text('  Dr. Suraj Srivastava',style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold),),
-               
+                SizedBox(width: 10,),
+                Text('Dr. Suraj Srivastava',style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold),),
+
               ],
             ),
             SizedBox(height: 10,),
@@ -66,16 +66,22 @@ class _AboutScreenState extends State<AboutScreen> {
                       child: Center(
 
                           child: Icon(Icons.email,size: 25,color: Colors.red,)),
-                       
+
 
                     ),
-                    Text("surajsriengg@gmail.com")
+                    SizedBox(width: 8,),
+                    TextButton(
+                      child: Text("surajsriengg@gmail.com",style: TextStyle(color: Colors.black)),
+                      onPressed: () {
+                        _launchURL("https://mail.google.com/mail/u/0/#search/shashikantkaushik4%40gmail.com?compose=new");
+                      },
+                    ),
                   ],
                 ),
 
                 SizedBox(height: 15,),
                 Divider(height: 15,color: Colors.grey,thickness: 4,indent: 65.0,endIndent: 65.0,)
-              ,  SizedBox(height: 15,),// buildSocioalIcon(FontAwesomeIcons.github),
+                ,  SizedBox(height: 15,),// buildSocioalIcon(FontAwesomeIcons.github),
                 // SizedBox(width: 12,),
               ],
             ),
@@ -85,7 +91,8 @@ class _AboutScreenState extends State<AboutScreen> {
             Row(
               children: [
                 buildProfileImage1(),
-                Text('  Shashi Kant',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),),
+                SizedBox(width: 10,),
+                Text('Shashi Kant',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),),
               ],
             ),
             SizedBox(height: 10,),
@@ -101,7 +108,12 @@ class _AboutScreenState extends State<AboutScreen> {
                       ),
                     ),
                     SizedBox(width: 8,),
-                    Text("shashikantkaushik"),
+                    TextButton(
+                      child: Text("shashikantkaushik",style: TextStyle(color: Colors.black)),
+                      onPressed: () {
+                        _launchURL("https://github.com/shashikantkaushik");
+                      },
+                    ),
                   ],
                 ),
                 SizedBox(height: 2,),
@@ -109,7 +121,14 @@ class _AboutScreenState extends State<AboutScreen> {
                   children: [
                     buildSocioalIcon(FontAwesomeIcons.linkedin),
                     SizedBox(width: 8,),
-                    Text("shashikantkaushik"),
+                    TextButton(
+                      child: Text("shashi-kant-kaushik",
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      onPressed: () {
+                        _launchURL("https://www.linkedin.com/in/shashi-kant-kaushik/");
+                      },
+                    ),
                   ],
                 ),
                 SizedBox(height: 2,),
@@ -123,7 +142,14 @@ class _AboutScreenState extends State<AboutScreen> {
                       ),
                     ),
                     SizedBox(width: 8,),
-                    Text("shashikantkaushik4@gmail.com"),
+                    TextButton(
+                      child: Text("shashikantkaushik4@gmail.com ",
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      onPressed: () {
+                        _launchURL("https://mail.google.com/mail/u/0/#search/shashikantkaushik4%40gmail.com?compose=new");
+                      },
+                    ),
                   ],
                 ),
               ],
@@ -135,7 +161,8 @@ class _AboutScreenState extends State<AboutScreen> {
             Row(
               children: [
                 buildProfileImage2(),
-                Text('  Ankit Dhatterwal',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),),
+                SizedBox(width: 10,),
+                Text('Ankit Dhattarwal',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),),
               ],
             ),
             SizedBox(height: 10,),
@@ -151,7 +178,12 @@ class _AboutScreenState extends State<AboutScreen> {
                       ),
                     ),
                     SizedBox(width: 8,),
-                    Text("shashikantkaushik"),
+                    TextButton(
+                      child: Text("Ankit-Dhattarwal",style: TextStyle(color: Colors.black)),
+                      onPressed: () {
+                        _launchURL("https://github.com/Ankit-Dhattarwal");
+                      },
+                    ),
                   ],
                 ),
                 SizedBox(height: 2,),
@@ -159,7 +191,12 @@ class _AboutScreenState extends State<AboutScreen> {
                   children: [
                     buildSocioalIcon(FontAwesomeIcons.linkedin),
                     SizedBox(width: 8,),
-                    Text("shashikantkaushik"),
+                    TextButton(
+                      child: Text("hr-ankit-dhattarwal47",style: TextStyle(color: Colors.black)),
+                      onPressed: () {
+                        _launchURL("https://www.linkedin.com/in/hr-ankit-dhattarwal47/");
+                      },
+                    ),
                   ],
                 ),
                 SizedBox(height: 2,),
@@ -172,7 +209,12 @@ class _AboutScreenState extends State<AboutScreen> {
                       ),
                     ),
                     SizedBox(width: 8,),
-                    Text("shashikantkaushik4@gmail.com"),
+                    TextButton(
+                      child: Text("er.ankitdhattarwal@gmail.com ",style: TextStyle(color: Colors.black)),
+                      onPressed: () {
+                        _launchURL("https://mail.google.com/mail/u/0/#search/er.ankitdhattarwal%40gmail.com?compose=new");
+                      },
+                    ),
                   ],
                 ),
               ],
@@ -186,7 +228,8 @@ class _AboutScreenState extends State<AboutScreen> {
               children: [
 
                 buildProfileImage3(),
-                Text('  Khushi Srivastava',style:TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),),
+                SizedBox(width: 10,),
+                Text('Khushi Srivastava',style:TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),),
               ],
             ),
             SizedBox(height: 10,),
@@ -202,7 +245,12 @@ class _AboutScreenState extends State<AboutScreen> {
                       ),
                     ),
                     SizedBox(width: 8,),
-                    Text("shashikantkaushik"),
+                    TextButton(
+                      child: Text("khushisrivastava202",style: TextStyle(color: Colors.black)),
+                      onPressed: () {
+                        _launchURL("https://github.com/Khushisrivastava202");
+                      },
+                    ),
                   ],
                 ),
                 SizedBox(height: 2,),
@@ -210,7 +258,12 @@ class _AboutScreenState extends State<AboutScreen> {
                   children: [
                     buildSocioalIcon(FontAwesomeIcons.linkedin),
                     SizedBox(width: 8,),
-                    Text("shashikantkaushik"),
+                    TextButton(
+                      child: Text("khushi-srivastava-",style: TextStyle(color: Colors.black)),
+                      onPressed: () {
+                        _launchURL("https://www.linkedin.com/in/khushi-srivastava-aa041621b/");
+                      },
+                    ),
                   ],
                 ),
                 SizedBox(height: 2,),
@@ -223,7 +276,12 @@ class _AboutScreenState extends State<AboutScreen> {
                       ),
                     ),
                     SizedBox(width: 8,),
-                    Text("shashikantkaushik4@gmail.com"),
+                    TextButton(
+                      child: Text("khushisrivastava202@gmail.com",style: TextStyle(color: Colors.black)),
+                      onPressed: () {
+                        _launchURL("https://github.com/Khushisrivastava202");
+                      },
+                    ),
                   ],
                 ),
               ],
@@ -237,7 +295,8 @@ class _AboutScreenState extends State<AboutScreen> {
               children: [
 
                 buildProfileImage4(),
-                Text('  Apoorv Aggrwal',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),),
+                SizedBox(width: 10,),
+                Text('Apoorv Aggrwal',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),),
               ],
             ),
             SizedBox(height: 12,),
@@ -253,17 +312,16 @@ class _AboutScreenState extends State<AboutScreen> {
                       ),
                     ),
                     SizedBox(width: 8,),
-                    Text("shashikantkaushik"),
+                    TextButton(
+                      child: Text("apoorvaggrawal",style: TextStyle(color: Colors.black)),
+                      onPressed: () {
+                        _launchURL("https://github.com/shashikantkaushik");
+                      },
+                    ),
                   ],
                 ),
                 SizedBox(height: 2,),
-                Row(
-                  children: [
-                    buildSocioalIcon(FontAwesomeIcons.linkedin),
-                    SizedBox(width: 8,),
-                    Text("shashikantkaushik"),
-                  ],
-                ),
+
                 SizedBox(height: 2,),
                 Row(
                   children: [
@@ -274,7 +332,12 @@ class _AboutScreenState extends State<AboutScreen> {
                       ),
                     ),
                     SizedBox(width: 8,),
-                    Text("shashikantkaushik4@gmail.com"),
+                    TextButton(
+                      child: Text("bteach34000@gmail.com",style: TextStyle(color: Colors.black)),
+                      onPressed: () {
+                        _launchURL("https://mail.google.com/mail/u/0/#search/bteach34000%40gmail.com?compose=new");
+                      },
+                    ),
                   ],
                 ),
               ],
@@ -338,3 +401,13 @@ Widget buildSocioalIcon(IconData icon)=> CircleAvatar(
 // }
 //
 //
+
+
+
+_launchURL(String url) async {
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
+}

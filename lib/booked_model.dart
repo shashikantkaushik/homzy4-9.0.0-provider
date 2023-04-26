@@ -12,7 +12,8 @@ String upi;
   String userUid;
   String proUid;
   String desc;
-
+int price;
+String work;
 
   BookModel({
     required this.acceptedAt,
@@ -28,6 +29,8 @@ String upi;
     required this.userPhoneNumber,
     required this.userPic,
     required this.upi,
+    required this.price,
+    required this.work
 
   });
 
@@ -37,6 +40,8 @@ String upi;
     return BookModel(
 
       upi: map['upi'] ?? '',
+      price: map['price'] ?? '',
+      work: map['work'] ?? '',
 
       desc: map['desc'] ?? '',
       userName: map['userName'] ?? '',
@@ -58,7 +63,8 @@ String upi;
     print("a2sdf");
     return {
 
-
+      "price": price,
+      "work": work,
       "upi": upi,
       "desc": desc,
       "userName" : userName,

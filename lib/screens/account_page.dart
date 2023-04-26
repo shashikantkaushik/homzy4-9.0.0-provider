@@ -2,10 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:homzy1/auth.dart';
 import 'dart:convert';
+import 'package:homzy1/screens/edit_profile.dart';
 import 'package:homzy1/screens/about.dart';
 import 'package:provider/provider.dart';
 import 'package:homzy1/screens/WelcomeScreen.dart';
-import 'package:homzy1/screens/profile_screen.dart';
+import 'package:homzy1/screens/book_Service.dart';
 import 'package:homzy1/screens/faq_screen.dart';
 import 'package:kommunicate_flutter/kommunicate_flutter.dart';
 //import 'package:kommunicate_flutter/kommunicate_flutter.dart';
@@ -89,10 +90,10 @@ class _SubSettingState extends State<SubSetting> {
             InkWell(
               onTap: (){
 
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => const Profile()),
-                  );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const EditProfile()),
+                );
               },
               child: Container(
                 height: 60.0,
@@ -128,139 +129,139 @@ class _SubSettingState extends State<SubSetting> {
               ),
             ),
             SizedBox(height: 20.0),
-            Container(
-              height: 60.0,
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.payment,
-                        color: Colors.purpleAccent,
-                        size: 50.0,
-                      ),
-                      SizedBox(width: 10.0),
-                      Text(
-                        "Payment",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 23.0,
+            InkWell(
+              onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>  bookedService(),
+                  ),
+
+                );
+              },
+              child: Container(
+                height: 60.0,
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.payment,
+                          color: Colors.purpleAccent,
+                          size: 50.0,
                         ),
-                      ),
-                    ],
-                  ),
-                  // Spacer(),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.black,
-                    size: 24.0,
-                  ),
-                ],
+                        SizedBox(width: 10.0),
+                        Text(
+                          "Booked Services",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 23.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                    // Spacer(),
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.black,
+                      size: 24.0,
+                    ),
+                  ],
+                ),
               ),
             ),
             SizedBox(height: 20.0),
-            Container(
-              height: 60.0,
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.question_answer,
-                        color: Colors.deepOrange,
-                        size: 50.0,
-                      ),
-                      SizedBox(width: 10.0),
-                      TextButton(
-                        onPressed: (){
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const WelcomeScreen(),
-                            ),
+            InkWell(
+              onTap: (){
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const FaqScreen(),
+                  ),
 
-                          );
-                        },
-                        child: TextButton(
-                          onPressed: (){
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => const FaqScreen(),
-                              ),
-
-                            );
-                          },
-                          child: Text(
-                            "FAQ",
-                            style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 23.0,
-                            ),
+                );
+              },
+              child: Container(
+                height: 60.0,
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.question_answer,
+                          color: Colors.deepOrange,
+                          size: 50.0,
+                        ),
+                        SizedBox(width: 10.0),
+                        Text(
+                          "FAQ",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 23.0,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  // Spacer(),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.black,
-                    size: 24.0,
-                  ),
-                ],
+                      ],
+                    ),
+                    // Spacer(),
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.black,
+                      size: 24.0,
+                    ),
+                  ],
+                ),
               ),
             ),
             SizedBox(height: 20.0),
             // Container 2
-            Container(
-              height: 60.0,
-              padding: EdgeInsets.symmetric(horizontal: 16.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.help,
-                        color: Colors.orangeAccent,
-                        size: 50.0,
-                      ),
-                      SizedBox(width: 10.0),
-                      TextButton(
-                        onPressed: (){
-                          dynamic conversationObject = {
-                            'appId': '271c5068d5c645603b47da5653855ac76',// The [APP_ID](https://dashboard.kommunicate.io/settings/install) obtained from kommunicate dashboard.
-                          };
+            InkWell(
+              onTap: (){
+                dynamic conversationObject = {
+                  'appId': '271c5068d5c645603b47da5653855ac76',// The [APP_ID](https://dashboard.kommunicate.io/settings/install) obtained from kommunicate dashboard.
+                };
 
-                          KommunicateFlutterPlugin.buildConversation(conversationObject)
-                              .then((clientConversationId) {
+                KommunicateFlutterPlugin.buildConversation(conversationObject)
+                    .then((clientConversationId) {
 
-                            print("Conversation builder success : " + clientConversationId.toString());
-                          }).catchError((error) {
-                            print("Conversation builder error : " + error.toString());
-                          });
-                        },
-                        child: Text(
+                  print("Conversation builder success : " + clientConversationId.toString());
+                }).catchError((error) {
+                  print("Conversation builder error : " + error.toString());
+                });
+              },
+              child: Container(
+                height: 60.0,
+                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(
+                          Icons.help,
+                          color: Colors.orangeAccent,
+                          size: 50.0,
+                        ),
+                        SizedBox(width: 10.0),
+                        Text(
                           "Help",
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 23.0,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  Icon(
-                    Icons.arrow_forward_ios,
-                    color: Colors.black,
-                    size: 24.0,
-                  ),
-                ],
+                      ],
+                    ),
+                    Icon(
+                      Icons.arrow_forward_ios,
+                      color: Colors.black,
+                      size: 24.0,
+                    ),
+                  ],
+                ),
               ),
             ),
 
@@ -270,7 +271,7 @@ class _SubSettingState extends State<SubSetting> {
             // Container 4
             InkWell(
               onTap: (){
-                    Navigator.push(
+                Navigator.push(
                   context,
                   MaterialPageRoute(
                     builder: (context) => const AboutScreen(),
