@@ -7,7 +7,6 @@ import 'package:homzy1/screens/homeScreen.dart';
 import 'package:homzy1/utils.dart';
 import 'package:homzy1/widget/button.dart';
 import 'package:provider/provider.dart';
-import 'package:homzy1/provider_model.dart';
 class UserInfromationScreen extends StatefulWidget {
   const UserInfromationScreen({super.key});
 

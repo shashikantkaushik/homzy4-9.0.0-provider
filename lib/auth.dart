@@ -11,23 +11,6 @@ import 'package:homzy1/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:homzy1/user_model.dart';
 import 'package:homzy1/screens/otp_screen.dart';
-import 'package:homzy1/screens/request_screen.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import 'dart:convert';
-import 'dart:io';
-
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:homzy1/req_model.dart';
-import 'package:homzy1/utils.dart';
-import 'package:flutter/material.dart';
-import 'package:homzy1/user_model.dart';
-
-import 'package:homzy1/screens/otp_screen.dart';
-import 'package:homzy1/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -402,7 +385,7 @@ class AuthProvider extends ChangeNotifier {
   Future getProviderData() async {
     await _firebaseFirestore
         .collection("provider")
-        .doc(_firebaseAuth.currentUser!.uid)
+        .doc()
         .get()
         .then((DocumentSnapshot snapshot) {
       _providerModel = ProviderModel(
@@ -427,24 +410,24 @@ class AuthProvider extends ChangeNotifier {
     try {
       print("hlo11");
      // bookModel.acceptedAt = DateTime.now().millisecondsSinceEpoch.toString();
-      // bookModel.proPhoneNumber = _firebaseAuth.currentUser!.phoneNumber!;
-      // bookModel.proUid = _firebaseAuth.currentUser!.phoneNumber!;
-      // bookModel.upi=userModel.upi;
-      // bookModel.proPic=userModel.profilePic;
-      // bookModel.userUid=reqModel.userUid;
-      // bookModel.userName=reqModel.userName;
-      // bookModel.userPhoneNumber=reqModel.userPhoneNumber;
-    //  bookModel.createdAt=reqModel.createdAt;
-      // bookModel.reqPic=reqModel.reqPic!;
-      // bookModel.desc=reqModel.desc;
+     //  bookModel.proPhoneNumber = _firebaseAuth.currentUser!.phoneNumber!;
+     //  bookModel.proUid = _firebaseAuth.currentUser!.phoneNumber!;
+     //  bookModel.upi=userModel.upi;
+     //  bookModel.proPic=userModel.profilePic;
+     //  bookModel.userUid=reqModel.userUid;
+     //  bookModel.userName=reqModel.userName;
+     //  bookModel.userPhoneNumber=reqModel.userPhoneNumber;
+     // bookModel.createdAt=reqModel.createdAt;
+     //  bookModel.reqPic=reqModel.reqPic!;
+     //  bookModel.desc=reqModel.desc;
       _bookModel = bookModel;
       print("hlo131");
 
       // uploading to database
       await _firebaseFirestore
           .collection("book")
-
-          .add(bookModel.toMap())
+          .doc(bookModel.userPhoneNumber)
+          .set(bookModel.toMap())
           .then((value) {
         onSuccess(){
           print("hlo132331");
@@ -460,9 +443,24 @@ class AuthProvider extends ChangeNotifier {
     }
   }
 
+  void move1(String phoneNumber,context) async {
+    final sourceCollection = FirebaseFirestore.instance.collection('request');
+;
+
+      // Delete the document from the source collection
+      await sourceCollection.doc(phoneNumber).delete();
+      print('Document with phone number $phoneNumber moved successfully!');
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => ServiceRequest()),
+      );
+
+    
+
+  }
 
   //
-  void move(String phoneNumber,context) async {
+  void move2(String phoneNumber,context) async {
     final sourceCollection = FirebaseFirestore.instance.collection('book');
     final destinationCollection = FirebaseFirestore.instance.collection(
         'moved');

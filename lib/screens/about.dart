@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:flutter/gestures.dart';
-//import 'package:flutter_linkify/flutter_linkify.dart';
 
 
 class AboutScreen extends StatefulWidget {
@@ -18,9 +16,9 @@ class _AboutScreenState extends State<AboutScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Members Who Contirbuted',style: TextStyle(fontSize: 22,color: Colors.black87),
+        title: Text('About Us',style: TextStyle(fontSize: 22,color: Colors.white,fontWeight: FontWeight.bold),
         ),
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.teal,
       ),
       body: Container(
 
@@ -32,7 +30,7 @@ class _AboutScreenState extends State<AboutScreen> {
             //
             // Text(' Service At Your Doorstep',style: TextStyle(color: Colors.grey.shade700,fontSize: 18),textAlign: TextAlign.center,),
             // SizedBox(height: 20,),
-            // //Text('Its Not Just An Application but a vision to meet every customer',style: TextStyle(color: Colors.black,fontSize: 19),textAlign: TextAlign.center,),
+            // //Text('Its Not Just An Application but a vision to meet every customer',style: TextStyle(color: Colors.black,fontSize: 25),textAlign: TextAlign.center,),
             //buildProfileImage()
             SizedBox(height: 40,),
 
@@ -43,7 +41,7 @@ class _AboutScreenState extends State<AboutScreen> {
                 //SizedBox(width: 10,),
                 buildProfileImage(),
                 SizedBox(width: 10,),
-                Text('Dr. Suraj Srivastava',style: TextStyle(fontSize: 19,fontWeight: FontWeight.bold),),
+                Text('Dr. Suraj Srivastava',style: TextStyle(fontSize: 24,fontWeight: FontWeight.bold),),
 
               ],
             ),
@@ -71,7 +69,7 @@ class _AboutScreenState extends State<AboutScreen> {
                     ),
                     SizedBox(width: 8,),
                     TextButton(
-                      child: Text("surajsriengg@gmail.com",style: TextStyle(color: Colors.black)),
+                      child: Text("surajsriengg@gmail.com",style: TextStyle(color: Colors.black,fontSize: 20)),
                       onPressed: () {
                         _launchURL("https://mail.google.com/mail/u/0/#search/shashikantkaushik4%40gmail.com?compose=new");
                       },
@@ -90,7 +88,9 @@ class _AboutScreenState extends State<AboutScreen> {
             SizedBox(height: 20,),
             Row(
               children: [
-                buildProfileImage1(),
+                buildProfileImage1(
+
+                ),
                 SizedBox(width: 10,),
                 Text('Shashi Kant',style: TextStyle(fontSize: 18,fontWeight: FontWeight.bold,),),
               ],
@@ -349,29 +349,35 @@ class _AboutScreenState extends State<AboutScreen> {
     );
   }
   Widget buildProfileImage() => CircleAvatar(
-    backgroundColor: Colors.grey.shade800,
+    radius: 35,
+    // backgroundColor: Colors.grey.shade800,
 
-    backgroundImage: AssetImage('assets/download.jpg'),
+    backgroundImage: AssetImage('assets/about/sir.jpeg'),
   );
   Widget buildProfileImage1() => CircleAvatar(
-    backgroundColor: Colors.grey.shade800,
+    radius: 35,
+    // backgroundColor: Colors.grey.shade800,
 
-    backgroundImage: AssetImage('assets/shashi.jpg'),
+    backgroundImage: AssetImage('assets/about/shashi.jpg'),
   );
   Widget buildProfileImage2() => CircleAvatar(
-    backgroundColor: Colors.grey.shade800,
+    radius: 35,
+    //backgroundColor: Colors.grey.shade800,
 
-    backgroundImage: AssetImage('assets/ankit.jpeg'),
+    backgroundImage: AssetImage('assets/about/ankit.jpeg'),
   );
   Widget buildProfileImage3() => CircleAvatar(
+    radius: 35,
     backgroundColor: Colors.grey.shade800,
 
-    backgroundImage: AssetImage('assets/khushi.jpeg'),
+    backgroundImage: AssetImage('assets/about/khushi.jpeg',),
+
   );
   Widget buildProfileImage4() => CircleAvatar(
+    radius: 35,
     backgroundColor: Colors.grey.shade800,
 
-    backgroundImage: AssetImage('assets/apoorv.jpg'),
+    backgroundImage: AssetImage('assets/about/aporv.png'),
   );
 }
 Widget buildSocioalIcon(IconData icon)=> CircleAvatar(

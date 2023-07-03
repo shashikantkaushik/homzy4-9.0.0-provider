@@ -6,17 +6,11 @@ import 'package:homzy1/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:homzy1/screens/account_page.dart';
-
-
-
-
-
+import 'package:lottie/lottie.dart';
 void main() => runApp(const MyApp());
 
 class MyApp extends StatefulWidget {
@@ -39,8 +33,6 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     final ap = Provider.of<AuthProvider>(context, listen: false);
 
-
-
     return MaterialApp(
       title: 'Home Service Provider',
       theme: ThemeData(
@@ -50,6 +42,7 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -61,10 +54,9 @@ class _HomeScreenState extends State<HomeScreen> {
   // String location ='Null, Press Button';
 
   late FirebaseFirestore _firebaseFirestore;
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+
   String Address = 'Location';
   //String Address2= 'search';
-
 
   Future<Position> _getGeoLocationPosition() async {
     bool serviceEnabled;
@@ -98,12 +90,12 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Future<void> GetAddressFromLatLong(Position position) async {
-    List<Placemark> placemarks = await placemarkFromCoordinates(
-        position.latitude, position.longitude);
+    List<Placemark> placemarks =
+        await placemarkFromCoordinates(position.latitude, position.longitude);
     print(placemarks);
     Placemark place = placemarks[0];
-    Address = '${place.street}, ${place.subLocality}, ${place.locality}, ${place
-        .postalCode}, ${place.administrativeArea}';
+    Address =
+        '${place.street}, ${place.subLocality}, ${place.locality}, ${place.postalCode}, ${place.administrativeArea}';
     //Address2='${place.locality}';
     setState(() {});
   }
@@ -111,32 +103,31 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _getGeoLocationPosition().then((position) => GetAddressFromLatLong(position));
+    _getGeoLocationPosition()
+        .then((position) => GetAddressFromLatLong(position));
     _firebaseFirestore = FirebaseFirestore.instance;
   }
 
   Widget build(BuildContext context) {
-
     final ap = Provider.of<AuthProvider>(context, listen: false);
-    final name=(ap.userModel.name);
-    final email=(ap.userModel.email);
+    final name = (ap.userModel.name);
+    final email = (ap.userModel.email);
 
-    final phone=(ap.userModel.phoneNumber);
-    final pic=(ap.userModel.profilePic);
-    final uid=(ap.userModel.uid);
-    final date=(ap.userModel.createdAt);
+    final phone = (ap.userModel.phoneNumber);
+    final pic = (ap.userModel.profilePic);
+    final uid = (ap.userModel.uid);
+    final date = (ap.userModel.createdAt);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:  Colors.white,
+        backgroundColor: Colors.teal,
         elevation: 0.5,
         centerTitle: false,
-
-        title: Text("Homzy Provider",
-            style:TextStyle(
-                color: Colors.black,
-
-            )
-        ),
+        automaticallyImplyLeading: false,
+        title: const Text("Homzy Provider",
+            style: const TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold
+            )),
         actions: [
           GestureDetector(
             onTap: () {
@@ -148,117 +139,104 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               );
             },
-            child: CircleAvatar(
+            child: Row(
+                children:[  Container(
+                    width: 80,
+                    height: 80,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child: CircleAvatar(
+                      radius: 40, // adjust as needed
+                      backgroundImage: NetworkImage('$pic'),
+                      //foregroundImage: AssetImage('assets/robot.jpeg'), // placeholder image
+                      // child: Icon(Icons.person, size: 40, color: Colors.white), // optional child icon
+                    )
 
-              backgroundImage: NetworkImage(ap.userModel.profilePic),
-              backgroundColor: Color(0xFF189AB4),
-              radius: 50,
+                ),
+                  SizedBox(width: 10,)
+                ]
             ),
           )
-
         ],
       ),
-      body:Column(
-        children:[ SingleChildScrollView(
-      child: SafeArea(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          SizedBox(height: 18,),
-      Container(
-        padding: EdgeInsets.all(16.0),
-        child: Row(
-          children: [
-            Icon(Icons.location_on,color: Colors.redAccent,),
-            SizedBox(width: 8.0),
-            Flexible(
-              child: Text(
-                '$Address',
-                maxLines: null,
-                overflow: TextOverflow.clip,
-              ),
-            ),
-          ],
-        ),
-      ),
-
-
-          SizedBox(
-            height: 10,
-          ),
-          Container(
-            padding: EdgeInsets.all(16.0),
+      body: Column(children: [
+        SingleChildScrollView(
+          child: SafeArea(
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                Text(
-                  "${DateTime
-                      .now()
-                      .day} ${DateFormat('MMMM').format(
-                      DateTime.now())} ${DateTime
-                      .now()
-                      .year}",
-                  style: TextStyle(
-                    fontSize: 15,
+                const SizedBox(
+                  height: 18,
+                ),
+                Container(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Row(
+                    children: [
+                      const Icon(
+                        Icons.location_on,
+                        color: Colors.redAccent,
+                      ),
+                      const SizedBox(width: 8.0),
+                      Flexible(
+                        child: Text(
+                          '$Address',
+                          maxLines: null,
+                          overflow: TextOverflow.clip,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                SizedBox(height: 20.0),
-                Text(
-                  "Hello ,$name",
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${DateTime.now().day} ${DateFormat('MMMM').format(DateTime.now())} ${DateTime.now().year}",
+                        style: const TextStyle(
+                          fontSize: 15,
+                        ),
+                      ),
+                      const SizedBox(height: 20.0),
+                      Text(
+                        "Hello ,$name",
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 60,
+                ),
+                SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: [
+                      Container(
+                        decoration: BoxDecoration(
+                          color: Colors.transparent,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        height: 320,
+                        width: 380,
+                        child:Lottie.asset('assets/house.json')
+                      ),
+                    ],
                   ),
                 ),
               ],
             ),
           ),
-          SizedBox(
-            height: 60,
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 16,),
-            child: SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.greenAccent,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    height: 320,
-                    width: 380,
-                    child: Row(
-                      // mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.arrow_left,
-                          size: 50,
-                        ),
-                        Text(
-                          'Swipe to show booked service',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              fontSize: 20),
-                        ),
-                      ],
-                    ),
-                  ),
-
-
-                ],
-              ),
-            ),
-          ),
-
-        ],
-      ),
-    ),
-    ),
-
-      ]
-      ),
+        ),
+      ]),
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -279,13 +257,13 @@ class _HomeScreenState extends State<HomeScreen> {
             case 0:
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => HomeScreen()),
+                MaterialPageRoute(builder: (context) => const HomeScreen()),
               );
               break;
             case 1:
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => ServiceRequest()),
+                MaterialPageRoute(builder: (context) => const ServiceRequest()),
               );
               break;
             case 2:

@@ -30,7 +30,7 @@ class _ServiceRequestState extends State<ServiceRequest> {
     final ap = Provider.of<AuthProvider>(context,listen: false);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor:Colors.white,
+        backgroundColor:Colors.teal,
         //Color(0xFF189AB4),
         leading: IconButton(
           onPressed: (){
@@ -40,10 +40,10 @@ class _ServiceRequestState extends State<ServiceRequest> {
             );
           },
           icon: const Icon(Icons.arrow_back_ios_sharp,
-          color: Colors.black87,),
+          color: Colors.white,),
         ),
 
-        title: const Text('Service Requests',style: TextStyle(color: Colors.black87),),
+        title: const Text('Service Requests',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
 
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(

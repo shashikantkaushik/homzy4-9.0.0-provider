@@ -11,7 +11,10 @@ class _FaqScreenState extends State<FaqScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('FAQ',style: TextStyle(fontSize: 22),),
+        backgroundColor:
+        Colors.teal,
+
+        title: Text('FAQ',style: TextStyle(fontSize: 22, ),textAlign: TextAlign.center,),
       ),
       body :Container(
         child :ListView(

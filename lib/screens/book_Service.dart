@@ -1,15 +1,10 @@
 import 'package:flutter/material.dart';
-//import 'package:homzy1/screens/respose.dart';
 import 'package:homzy1/auth.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:homzy1/booked_model.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_storage/firebase_storage.dart';
-//import 'package:homzy1/screens/home_screen.dart';
-//import 'package:homzy1/screens/no_booking.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 class bookedService extends StatefulWidget {
   @override
   _bookedServiceState createState() => _bookedServiceState();
@@ -33,8 +28,8 @@ class _bookedServiceState extends State<bookedService> {
     final ap = Provider.of<AuthProvider>(context,listen: false);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Book Requests',style: TextStyle(color: Colors.black),),
-            backgroundColor: Colors.white,
+        title: Text('Book Requests',style: TextStyle(color: Colors.white,fontWeight: FontWeight.bold),),
+            backgroundColor: Colors.teal,
       ),
       body: StreamBuilder<QuerySnapshot<Map<String, dynamic>>>(
         stream: _firebaseFirestore.collection("book").snapshots(),
@@ -136,12 +131,20 @@ class _bookedServiceState extends State<bookedService> {
                           height: 80,
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: NetworkImage(reqList[index].userPic ?? 'https://example.com/default-image.jpg'),
+                          ),
+                          child: ClipOval(
+                            child: FadeInImage.assetNetwork(
+                              placeholder: 'assets/robot.jpeg',
+                              image: reqList[index].userPic ?? 'https://example.com/default-image.jpg',
                               fit: BoxFit.cover,
+                              // Optional: specify error image
+                              imageErrorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                                return Image.asset('assets/robot.jpeg', fit: BoxFit.cover);
+                              },
                             ),
                           ),
                         ),
+
 
                         SizedBox(width: 16),
                         Column(

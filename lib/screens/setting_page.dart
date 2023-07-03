@@ -5,11 +5,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:homzy1/auth.dart';
-//import 'package:homzy1/screens/home_screen.dart';
 import 'package:provider/provider.dart';
 import 'package:homzy1/screens/WelcomeScreen.dart';
-import 'package:homzy1/screens/book_Service.dart';
-//import 'package:kommunicate_flutter/kommunicate_flutter.dart';
 class SubSetting extends StatefulWidget {
   const SubSetting({super.key});
 
